@@ -34,9 +34,9 @@ class Router implements RouterInterface
         $this->routes[] = $route;
     }
 
-    public function add(string $name, RequestMatcherInterface $matcher, string $coreHandlerClass, array $middlewareClasses)
+    public function add(string $name, RequestMatcherInterface $matcher, $coreHandlerRef, array $middlewareRefs = [])
     {
-        $handler = $this->factory->create($coreHandlerClass, $middlewareClasses);
+        $handler = $this->factory->create($coreHandlerRef, $middlewareRefs);
         $this->addRoute(new Route($name, $matcher, $handler));
     }
 
