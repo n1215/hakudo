@@ -29,7 +29,7 @@ class MethodAndPathMatcher implements RequestMatcherInterface {
         }
 
         if (!preg_match($this->pathRegex, $request->getUri()->getPath(), $matches)) {
-            var_dump($request->getUri());
+            return RequestMatchResult::failure();
         }
 
         $params = array_filter($matches, function($key) {
