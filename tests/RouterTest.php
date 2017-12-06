@@ -6,7 +6,7 @@ namespace N1215\Hakudo;
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 use N1215\Hakudo\RequestMatcher\Path;
-use N1215\Jugoya\RequestHandlerFactory;
+use N1215\Jugoya\LazyRequestHandlerFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -19,7 +19,7 @@ class RouterTest extends TestCase
 {
     public function test()
     {
-        $router = new Router(RequestHandlerFactory::fromContainer(new MockContainer()));
+        $router = new Router(LazyRequestHandlerFactory::fromContainer(new MockContainer()));
 
         $router->add('get_endpoint_name', Path::get('|/test/get|'), GetTestAction::class, [HogeMiddleware::class]);
         $router->add('post_endpoint_name', Path::post('|/resources/(?<resource_name>[a-z_]+)/(?<id>[0-9]+)|'), PostTestAction::class, [FugaMiddleware::class]);

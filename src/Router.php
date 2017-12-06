@@ -8,7 +8,7 @@ use N1215\Http\Router\RouterInterface;
 use N1215\Http\Router\RoutingError;
 use N1215\Http\Router\RoutingResult;
 use N1215\Http\Router\RoutingResultInterface;
-use N1215\Jugoya\RequestHandlerFactory;
+use N1215\Jugoya\RequestHandlerFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Router implements RouterInterface
@@ -19,11 +19,11 @@ class Router implements RouterInterface
     private $routes;
 
     /**
-     * @var RequestHandlerFactory
+     * @var RequestHandlerFactoryInterface
      */
     private $factory;
 
-    public function __construct(RequestHandlerFactory $factory)
+    public function __construct(RequestHandlerFactoryInterface $factory)
     {
         $this->factory = $factory;
         $this->routes = [];
