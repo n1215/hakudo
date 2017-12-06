@@ -22,6 +22,7 @@ class RouterTest extends TestCase
         $router = new Router(LazyRequestHandlerFactory::fromContainer(new MockContainer()));
 
         $router->add('get_endpoint_name', Path::get('|/test/get|'), GetTestAction::class, [HogeMiddleware::class]);
+        $router->add('no_match_endpoint_name', Path::post('|no_match|'), PostTestAction::class);
         $router->add('post_endpoint_name', Path::post('|/resources/(?<resource_name>[a-z_]+)/(?<id>[0-9]+)|'), PostTestAction::class, [FugaMiddleware::class]);
 
         $request = new ServerRequest([], [], new Uri('/resources/posts/12345'), 'POST');
