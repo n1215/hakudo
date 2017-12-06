@@ -17,7 +17,7 @@ use Zend\Diactoros\Uri;
 
 class RouterTest extends TestCase
 {
-    public function test()
+    public function test_match_when_success()
     {
         $router = new Router(LazyRequestHandlerFactory::fromContainer(new MockContainer()));
 
@@ -31,6 +31,21 @@ class RouterTest extends TestCase
 
         $this->assertTrue($result->isSuccess());
         $this->assertEquals(['resource_name' => 'posts', 'id' => '12345'], $result->getMatchedParams());
+    }
+
+    public function test_match_when_failure()
+    {
+        $router = new Router(LazyRequestHandlerFactory::fromContainer(new MockContainer()));
+
+        $router->add('get_endpoint_name', Path::get('|/test/get|'), GetTestAction::class, [HogeMiddleware::class]);
+
+        $request = new ServerRequest([], [], new Uri('/resources/posts/12345'), 'POST');
+
+        $result = $router->match($request);
+
+        $this->assertFalse($result->isSuccess());
+        $this->assertEquals([], $result->getMatchedParams());
+        $this->assertNull($result->getMatchedHandler());
     }
 }
 
