@@ -6,7 +6,7 @@ namespace N1215\Hakudo;
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 use N1215\Hakudo\RequestMatcher\Path;
-use N1215\Jugoya\LazyRequestHandlerFactory;
+use N1215\Jugoya\LazyRequestHandlerBuilder;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -19,7 +19,7 @@ class RouterTest extends TestCase
 {
     public function test_match_when_success()
     {
-        $router = new Router(LazyRequestHandlerFactory::fromContainer(new MockContainer()));
+        $router = new Router(LazyRequestHandlerBuilder::fromContainer(new MockContainer()));
 
         $router->add('get_endpoint_name', Path::get('|/test/get|'), GetTestAction::class, [HogeMiddleware::class]);
         $router->add('no_match_endpoint_name', Path::post('|no_match|'), PostTestAction::class);
@@ -35,7 +35,7 @@ class RouterTest extends TestCase
 
     public function test_match_when_failure()
     {
-        $router = new Router(LazyRequestHandlerFactory::fromContainer(new MockContainer()));
+        $router = new Router(LazyRequestHandlerBuilder::fromContainer(new MockContainer()));
 
         $router->add('get_endpoint_name', Path::get('|/test/get|'), GetTestAction::class, [HogeMiddleware::class]);
 
