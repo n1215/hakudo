@@ -6,7 +6,7 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/n1215/hakudo/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/n1215/hakudo/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/n1215/hakudo/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/n1215/hakudo/?branch=master)
 
-A PSR-15 compatible HTTP router.
+A PSR7 / PSR-15 compatible HTTP router using [n1215/http-router](https://github.com/n1215/http-router) and [n1215/http-request-matcher](https://github.com/n1215/http-request-matcher).
 
 # License
 The MIT License (MIT). Please see [LICENSE](LICENSE) for more information.
