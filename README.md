@@ -98,13 +98,13 @@ $response = $routingHandler->handle($request);
 ![hakudo](doc/hakudo.png)
 
 ### RouterInterface
-![n1215/http-router](https://github.com/n1215/http-router/doc/router.png)
+![n1215/http-router](https://github.com/n1215/http-router/blob/master/doc/router.png)
 
 ### RequestMatcherInterface
-![n1215/http-request-matcher](https://github.com/n1215/http-router/doc/router.png)
+![n1215/http-request-matcher](https://github.com/n1215/http-request-matcher/blob/master/doc/request-matcher.png)
 
 ### Jugoya
-![n1215/jugoya](https://github.com/n1215/jugoya/doc/jugoya.png)
+![n1215/jugoya](https://github.com/n1215/jugoya/blob/master/doc/jugoya.png)
 
 ## License
 The MIT License (MIT). Please see [LICENSE](LICENSE) for more information.
