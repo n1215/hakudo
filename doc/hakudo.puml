@@ -1,0 +1,67 @@
+@startuml
+
+package N1215\Http\Hakudo {
+    class Router {
+        - $routes: Route[]
+        - $builder: RequestHandlerBuilderInterface
+        + match(ServerRequestInterface $request): RoutingResultInterface
+        + add(string $name, RequestMatcherInterface $matcher, $coreHandlerRef, array $middlewareRefs = []): Route
+    }
+
+    class Route {
+        - $name: string
+        - $handler: RequestHandlerInterface
+        - $matcher: RequestMatcherInterface
+        + getName(): string
+        + match(ServerRequestInterface $request): RequestMatchResultInterface
+        + getHandler(): RequestHandlerInterface
+    }
+
+    N1215\Http\Router.RouterInterface <|-- Router: implements
+    Route o- Router
+    N1215\Jugoya.RequestHandlerBuilderInterface o- Router
+    Route o-- N1215\Http\RequestMatcher.RequestMatcherInterface
+    Route o--- Psr\Http\Server.RequestHandlerInterface
+}
+
+package N1215\Http\Hakudo\RequestMatcher {
+    class MethodAndPathMatcher {
+        + match(ServerRequestInterface $request): RequestMatchResultInterface
+    }
+
+    class Path {
+        + static get(string $path): MethodAndPathMatcher
+        + static post(string $path): MethodAndPathMatcher
+    }
+
+    N1215\Http\RequestMatcher.RequestMatcherInterface <|- MethodAndPathMatcher: implements
+    MethodAndPathMatcher <- Path: create
+}
+
+package N1215\Http\Router {
+    interface RouterInterface {
+        + match(ServerRequestInterface $request): RoutingResultInterface
+    }
+}
+
+package N1215\Http\RequestMatcher {
+    interface RequestMatcherInterface {
+        + match(ServerRequestInterface $request): RequestMatchResultInterface
+    }
+}
+
+package N1215\Jugoya {
+    interface RequestHandlerBuilderInterface {
+        + build($coreHandlerRef, $middlewareRefs): RequestHandlerInterface
+    }
+
+    Psr\Http\Server.RequestHandlerInterface <- RequestHandlerBuilderInterface: create
+}
+
+package Psr\Http\Server {
+    interface RequestHandlerInterface {
+        + handle(ServerRequestInterface $request): ResponseInterface
+    }
+}
+
+@enduml
