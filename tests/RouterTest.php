@@ -21,9 +21,9 @@ class RouterTest extends TestCase
     {
         $router = new Router(LazyRequestHandlerBuilder::fromContainer(new MockContainer()));
 
-        $router->add('get_endpoint_name', Path::get('|/test/get|'), GetTestAction::class, [HogeMiddleware::class]);
-        $router->add('no_match_endpoint_name', Path::post('|no_match|'), PostTestAction::class);
-        $router->add('post_endpoint_name', Path::post('|/resources/(?<resource_name>[a-z_]+)/(?<id>[0-9]+)|'), PostTestAction::class, [FugaMiddleware::class]);
+        $router->add(Path::get('|/test/get|'), GetTestAction::class, [HogeMiddleware::class]);
+        $router->add(Path::post('|no_match|'), PostTestAction::class);
+        $router->add(Path::post('|/resources/(?<resource_name>[a-z_]+)/(?<id>[0-9]+)|'), PostTestAction::class, [FugaMiddleware::class]);
 
         $request = new ServerRequest([], [], new Uri('/resources/posts/12345'), 'POST');
 
@@ -37,7 +37,7 @@ class RouterTest extends TestCase
     {
         $router = new Router(LazyRequestHandlerBuilder::fromContainer(new MockContainer()));
 
-        $router->add('get_endpoint_name', Path::get('|/test/get|'), GetTestAction::class, [HogeMiddleware::class]);
+        $router->add(Path::get('|/test/get|'), GetTestAction::class, [HogeMiddleware::class]);
 
         $request = new ServerRequest([], [], new Uri('/resources/posts/12345'), 'POST');
 

@@ -29,15 +29,16 @@ class Router implements RouterInterface
         $this->routes = [];
     }
 
-    private function addRoute(Route $route)
+    private function addRoute(Route $route): Route
     {
         $this->routes[] = $route;
+        return $route;
     }
 
-    public function add(string $name, RequestMatcherInterface $matcher, $coreHandlerRef, array $middlewareRefs = [])
+    public function add(RequestMatcherInterface $matcher, $coreHandlerRef, array $middlewareRefs = []): Route
     {
         $handler = $this->builder->build($coreHandlerRef, $middlewareRefs);
-        $this->addRoute(new Route($name, $matcher, $handler));
+        return $this->addRoute(new Route($matcher, $handler));
     }
 
     public function match(ServerRequestInterface $request): RoutingResultInterface

@@ -8,7 +8,7 @@ use N1215\Http\RequestMatcher\RequestMatcherInterface;
 use N1215\Http\RequestMatcher\RequestMatchResultInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class Route
+final class Route
 {
     /** @var string  */
     private $name;
@@ -19,16 +19,22 @@ class Route
     /** @var RequestHandlerInterface  */
     private $handler;
 
-    public function __construct(string $name, RequestMatcherInterface $matcher, RequestHandlerInterface $handler)
+    public function __construct(RequestMatcherInterface $matcher, RequestHandlerInterface $handler, string $name = null)
     {
         $this->name = $name;
         $this->matcher = $matcher;
         $this->handler = $handler;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function name(string $name): self
+    {
+        $this->name = $name;
+        return $this;
     }
 
     public function match(ServerRequestInterface $request): RequestMatchResultInterface

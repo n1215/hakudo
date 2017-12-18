@@ -12,21 +12,29 @@ class RouteTest extends TestCase
     public function test_getName()
     {
         $name = 'hello';
-        $route = new Route($name, new MockRequestMatcher(RequestMatchResult::success([])), new MockRequestHandler());
+        $route = new Route(new MockRequestMatcher(RequestMatchResult::success([])), new MockRequestHandler(), $name);
+        $this->assertEquals($name, $route->getName());
+    }
+    public function test_name()
+    {
+        $route = new Route(new MockRequestMatcher(RequestMatchResult::success([])), new MockRequestHandler());
+        $this->assertNull($route->getName());
+        $name = 'hello';
+        $this->assertInstanceOf(Route::class, $route->name($name));
         $this->assertEquals($name, $route->getName());
     }
 
     public function test_getHandler()
     {
         $handler = new MockRequestHandler();
-        $route = new Route('dummy', new MockRequestMatcher(RequestMatchResult::success([])), $handler);
+        $route = new Route( new MockRequestMatcher(RequestMatchResult::success([])), $handler, 'dummy');
         $this->assertSame($handler, $route->getHandler());
     }
 
     public function test_match()
     {
         $result = RequestMatchResult::success([]);
-        $route = new Route('dummy', new MockRequestMatcher($result), new MockRequestHandler());
+        $route = new Route(new MockRequestMatcher($result), new MockRequestHandler(), 'dummy');
         $this->assertSame($result, $route->match(new ServerRequest()));
     }
 }
