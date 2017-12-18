@@ -73,11 +73,10 @@ $router = new N1215\Hakudo\Router(
 // 7. add routes
 use N1215\Hakudo\RequestMatcher\Path;
 $router->add(
-    'route_name',
     Path::get('|/resources/(?<resource_name>[a-z_]+)/(?<id>[0-9]+)|'), // you can use any other RequestMatcher instance.
     YourHandler::class, // you can use same signature closure or RequestHandler instance instead of RequestHandler's container entry name.
     [YourMiddleware::class] // you can use same signature closure or Middleware instance instead of Middleware's container entry name.
-);
+)->name('route_name');
 
 // 8. create RoutingHandler
 $routingHandler = new N1215\Http\Router\RoutingHandler(
