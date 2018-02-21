@@ -15,8 +15,8 @@ A PSR7 / PSR-15 compatible HTTP router using [n1215/http-router](https://github.
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use N1215\Http\Router\RoutingErrorInterface;
-use Interop\Http\Server\RequestHandlerInterface;
-use Interop\Http\Server\MiddlewareInterface
+use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Server\MiddlewareInterface
 
 // 1. Implement RoutingErrorResponderInterface.
 class YourRoutingErrorResponder implements N1215\Http\Router\RoutingErrorResponderInterface

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace N1215\Hakudo;
 
-use Interop\Http\Server\MiddlewareInterface;
-use Interop\Http\Server\RequestHandlerInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use N1215\Hakudo\RequestMatcher\Path;
 use N1215\Jugoya\LazyRequestHandlerBuilder;
 use PHPUnit\Framework\TestCase;

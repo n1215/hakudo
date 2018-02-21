@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace N1215\Hakudo;
 
-use Interop\Http\Server\RequestHandlerInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use N1215\Http\RequestMatcher\RequestMatcherInterface;
 use N1215\Http\RequestMatcher\RequestMatchResultInterface;
 use Psr\Http\Message\ServerRequestInterface;

@@ -17,9 +17,9 @@
     ],
     "require": {
         "php": ">=7.1.0",
-        "n1215/http-router": "^0.5",
-        "n1215/http-request-matcher": "^0.2",
-        "n1215/jugoya": "^0.7"
+        "n1215/http-router": "^1.0",
+        "n1215/http-request-matcher": "^1.0",
+        "n1215/jugoya": "^1.0"
     },
     "autoload": {
         "psr-4": {
