@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace N1215\Hakudo;
 
+use N1215\Http\Router\Exception\RouteNotFoundException;
+use N1215\Http\Router\Result\RoutingResultFactory;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use N1215\Hakudo\RequestMatcher\Path;
@@ -19,7 +21,7 @@ class RouterTest extends TestCase
 {
     public function test_match_when_success()
     {
-        $router = new Router(LazyRequestHandlerBuilder::fromContainer(new MockContainer()));
+        $router = new Router(LazyRequestHandlerBuilder::fromContainer(new MockContainer()), new RoutingResultFactory());
 
         $router->add(Path::get('|/test/get|'), GetTestAction::class, [HogeMiddleware::class]);
         $router->add(Path::post('|no_match|'), PostTestAction::class);
@@ -29,23 +31,23 @@ class RouterTest extends TestCase
 
         $result = $router->match($request);
 
-        $this->assertTrue($result->isSuccess());
-        $this->assertEquals(['resource_name' => 'posts', 'id' => '12345'], $result->getMatchedParams());
+        $this->assertEquals(['resource_name' => 'posts', 'id' => '12345'], $result->getParams());
+        $this->assertInstanceOf(RequestHandlerInterface::class, $result->getHandler());
+        $this->assertEquals('post', $result->getHandler()->handle($request)->getBody()->__toString());
     }
 
     public function test_match_when_failure()
     {
-        $router = new Router(LazyRequestHandlerBuilder::fromContainer(new MockContainer()));
+        $router = new Router(LazyRequestHandlerBuilder::fromContainer(new MockContainer()), new RoutingResultFactory());
 
         $router->add(Path::get('|/test/get|'), GetTestAction::class, [HogeMiddleware::class]);
 
         $request = new ServerRequest([], [], new Uri('/resources/posts/12345'), 'POST');
 
-        $result = $router->match($request);
+        $this->expectException(RouteNotFoundException::class);
+        $this->expectExceptionMessage('route not found');
 
-        $this->assertFalse($result->isSuccess());
-        $this->assertEquals([], $result->getMatchedParams());
-        $this->assertNull($result->getMatchedHandler());
+        $router->match($request);
     }
 }
 

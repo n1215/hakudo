@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": ">=7.1.0",
-        "n1215/http-router": "^1.0",
+        "n1215/http-router": "^2.0",
         "n1215/http-request-matcher": "^1.0",
         "n1215/jugoya": "^1.0"
     },

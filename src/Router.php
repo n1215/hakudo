@@ -4,9 +4,12 @@ declare(strict_types=1);
 namespace N1215\Hakudo;
 
 use N1215\Http\RequestMatcher\RequestMatcherInterface;
+use N1215\Http\Router\Exception\RouteNotFoundException;
+use N1215\Http\Router\Result\RoutingResultFactory;
 use N1215\Http\Router\RouterInterface;
 use N1215\Http\Router\RoutingError;
 use N1215\Http\Router\RoutingResult;
+use N1215\Http\Router\RoutingResultFactoryInterface;
 use N1215\Http\Router\RoutingResultInterface;
 use N1215\Jugoya\RequestHandlerBuilderInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -23,9 +26,15 @@ class Router implements RouterInterface
      */
     private $builder;
 
-    public function __construct(RequestHandlerBuilderInterface $builder)
+    /**
+     * @var RoutingResultFactory
+     */
+    private $resultFactory;
+
+    public function __construct(RequestHandlerBuilderInterface $builder, RoutingResultFactory $resultFactory)
     {
         $this->builder = $builder;
+        $this->resultFactory = $resultFactory;
         $this->routes = [];
     }
 
@@ -48,13 +57,13 @@ class Router implements RouterInterface
             $requestMatchResult = $route->match($request);
 
             if ($requestMatchResult->isSuccess()) {
-                return RoutingResult::success(
+                return $this->resultFactory->make(
                     $route->getHandler(),
                     $requestMatchResult->getParams()
                 );
             }
         }
 
-        return RoutingResult::failure(new RoutingError(404, 'route not found'));
+        throw new RouteNotFoundException('route not found');
     }
 }

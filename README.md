@@ -14,14 +14,22 @@ A PSR7 / PSR-15 compatible HTTP router using [n1215/http-router](https://github.
 <?php
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use N1215\Http\Router\RoutingErrorInterface;
+use N1215\Http\Router\Exception\RouteNotFoundException;
+use N1215\Http\Router\Exception\RoutingException;
+use N1215\Http\Router\Handler\RoutingErrorResponderInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Http\Server\MiddlewareInterface
+use Psr\Http\Server\MiddlewareInterface;
 
 // 1. Implement RoutingErrorResponderInterface.
-class YourRoutingErrorResponder implements N1215\Http\Router\RoutingErrorResponderInterface
+class YourNotFoundErrorResponder implements RoutingErrorResponderInterface
 {
-    public function respond(ServerRequestInterface $request, RoutingErrorInterface $error): ResponseInterface
+    public function supports(RoutingException $exception): bool
+    {
+        // use this responder only when Route not found exception is thrown by the router.
+        return $exception instanceof RouteNotFoundException;
+    }
+    
+    public function respond(RoutingException $exception, ServerRequestInterface $request): ResponseInterface
     {
         // implement
     }
@@ -67,7 +75,8 @@ $container->bind(YourMiddleware::class, function () { return new YourMiddleware(
 
 // 6. create Router instance
 $router = new N1215\Hakudo\Router(
-    N1215\Jugoya\LazyRequestHandlerBuilder::fromContainer($container)
+    N1215\Jugoya\LazyRequestHandlerBuilder::fromContainer($container),
+    new N1215\Http\Router\Result\RoutingResultFactory()
 );
 
 // 7. add routes
@@ -79,9 +88,9 @@ $router->add(
 )->name('route_name');
 
 // 8. create RoutingHandler
-$routingHandler = new N1215\Http\Router\RoutingHandler(
+$routingHandler = new N1215\Http\Router\Handler\RoutingHandler(
     $router,
-    new YourRoutingErrorResponder()
+    new YourNotFoundErrorResponder()
 );
 
 // 9. Use RoutingHandler as an implementation of PSR-15 server request handler.
