@@ -6,7 +6,7 @@ namespace N1215\Hakudo;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response;
+use Laminas\Diactoros\Response;
 
 class MockRequestHandler implements RequestHandlerInterface
 {

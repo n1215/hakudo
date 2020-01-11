@@ -5,7 +5,7 @@ namespace N1215\Hakudo;
 
 use N1215\Http\RequestMatcher\RequestMatchResult;
 use PHPUnit\Framework\TestCase;
-use Zend\Diactoros\ServerRequest;
+use Laminas\Diactoros\ServerRequest;
 
 class RouteTest extends TestCase
 {
